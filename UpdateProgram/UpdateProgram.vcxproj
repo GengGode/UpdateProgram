@@ -21,8 +21,7 @@
     <ApplicationTypeRevision Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</ApplicationTypeRevision>
     <DefaultLanguage Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">en</DefaultLanguage>
     <AppContainerApplication Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">true</AppContainerApplication>
-    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')"
-      >$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -52,11 +51,8 @@
     <QtDeployToProjectDir>true</QtDeployToProjectDir>
     <QtDeployVsContent>true</QtDeployVsContent>
   </PropertyGroup>
-  <Target Name="QtMsBuildNotFound"
-    BeforeTargets="CustomBuild;ClCompile"
-    Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
-    <Message Importance="High"
-      Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
   </Target>
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
@@ -72,6 +68,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <TargetName>TianLi_updata</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -107,11 +104,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <QtRcc Include="UpdateProgram.qrc"/>
-    <QtUic Include="UpdateProgram.ui"/>
-    <QtMoc Include="UpdateProgram.h"/>
-    <ClCompile Include="UpdateProgram.cpp"/>
-    <ClCompile Include="main.cpp"/>
+    <QtRcc Include="UpdateProgram.qrc" />
+    <QtUic Include="UpdateProgram.ui" />
+    <QtMoc Include="UpdateProgram.h" />
+    <ClCompile Include="UpdateProgram.cpp" />
+    <ClCompile Include="main.cpp" />
     <AppxManifest Include="Package.appxmanifest">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">true</ExcludedFromBuild>
     </AppxManifest>
