@@ -35,25 +35,32 @@
     <ClCompile Include="UpdateProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <AppxManifest Include="Package.appxmanifest">
-      <Filter>Resource Files</Filter>
-    </AppxManifest>
-    <Image Include="assets/logo_store.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets/logo_620x300.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets/logo_150x150.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets/logo_44x44.png">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Process7zWorker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdataModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VersionNumber.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Process7zWorker.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="UpdataModule.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="VersionNumber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

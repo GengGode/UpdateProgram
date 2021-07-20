@@ -1,28 +1,263 @@
-<UI version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>UpdateProgramClass</class>
- <widget class="QMainWindow" name="UpdateProgramClass" >
-  <property name="objectName" >
-   <string notr="true">UpdateProgramClass</string>
-  </property>
-  <property name="geometry" >
+ <widget class="QWidget" name="UpdateProgramClass">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>730</width>
+    <height>522</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>UpdateProgram</string>
-  </property>  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:rgba(0,0,0,0);</string>
+  </property>
+  <widget class="QWidget" name="centralWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>730</width>
+     <height>522</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <widget class="QWidget" name="widget_Main" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>710</width>
+      <height>502</height>
+     </rect>
+    </property>
+    <widget class="QStackedWidget" name="MainPage">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>400</y>
+       <width>710</width>
+       <height>102</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget{
+background-color:rgba(255, 255, 255, 0);
+}</string>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="page_1">
+      <widget class="QLabel" name="label_Text">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>35</y>
+         <width>141</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>-1</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+color:rgb(58, 59, 64);
+font-size:16px;
+}</string>
+       </property>
+       <property name="text">
+        <string>资源下载中 32%...</string>
+       </property>
+      </widget>
+      <widget class="QProgressBar" name="progressBar">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>56</y>
+         <width>650</width>
+         <height>10</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QProgressBar{
+background:rgb(235, 235, 236);
+color:rgba(255, 255, 255, 0);
+border:1px solid rgb(248, 248, 248);
+border-radius:3px;
+} 
+QProgressBar::chunk{
+border-radius:3px;
+background:rgb(58, 59, 64);
+}</string>
+       </property>
+       <property name="value">
+        <number>24</number>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="page_2">
+      <widget class="QPushButton" name="pushButton_Start">
+       <property name="geometry">
+        <rect>
+         <x>224</x>
+         <y>27</y>
+         <width>262</width>
+         <height>48</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>-1</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+background-color:rgb(57, 59, 64);
+border:none;
+font-size:18px;
+color:rgb(244, 216, 168);
+border-radius:4px;
+}
+QPushButton:hover {
+background-color:rgb(77, 79, 83);
+}
+QPushButton:pressed {
+background-color:rgb(57, 59, 64);
+}</string>
+       </property>
+       <property name="text">
+        <string>打开启动器</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="label_RectD">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>400</y>
+       <width>710</width>
+       <height>102</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+background-color:rgb(255,255,255);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_RectU">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>710</width>
+       <height>400</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-image:url(:/BackgroundImage/Resource/bg2.png);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_Exit">
+     <property name="geometry">
+      <rect>
+       <x>680</x>
+       <y>0</y>
+       <width>30</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background:rgba(255, 255, 255, 0);
+border:none;
+background-image:url(:/TitleButtonImage/Resource/TitlePudhButtonStyle/bexit0.png);
+}
+QPushButton:hover{
+border:none;
+background-image:url(:/TitleButtonImage/Resource/TitlePudhButtonStyle/bexit1.png);
+}
+QPushButton:pressed{
+border:none;
+background-image:url(:/TitleButtonImage/Resource/TitlePudhButtonStyle/bexit1.png);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_Mini">
+     <property name="geometry">
+      <rect>
+       <x>645</x>
+       <y>0</y>
+       <width>30</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background:rgba(255, 255, 255, 0);
+border:none;
+background-image:url(:/TitleButtonImage/Resource/TitlePudhButtonStyle/bmin0.png);
+}
+QPushButton:hover {
+border:none;
+background-image:url(:/TitleButtonImage/Resource/TitlePudhButtonStyle/bmin1.png);
+}
+QPushButton:pressed {
+border:none;
+background-image:url(:/TitleButtonImage/Resource/TitlePudhButtonStyle/bmin1.png);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_Title">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>710</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <zorder>label_RectD</zorder>
+    <zorder>MainPage</zorder>
+    <zorder>label_RectU</zorder>
+    <zorder>label_Title</zorder>
+    <zorder>pushButton_Exit</zorder>
+    <zorder>pushButton_Mini</zorder>
+   </widget>
+  </widget>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources>
-   <include location="UpdateProgram.qrc"/>
+  <include location="UpdateProgram.qrc"/>
  </resources>
  <connections/>
-</UI>
+</ui>
