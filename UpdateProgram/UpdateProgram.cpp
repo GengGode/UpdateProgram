@@ -15,15 +15,13 @@ UpdateProgram::UpdateProgram(QWidget *parent)
 	ui.widget_Main->setGraphicsEffect(shadow);
 	ui.MainPage->setCurrentIndex(0);
 
-	//myVersion = QString("1.1.0");
-
 	updataVer = new UpdataModule();
 	updataVer->setData(url_Version);
 	connect(updataVer, &UpdataModule::finish, this, &UpdateProgram::step0_Download);
 	updataVer->getFile();
 
-	//this->hide();
-	//this->step0_Download();
+	connect(ui.pushButton_Exit, &QPushButton::clicked, this, &UpdateProgram::Exit);
+	connect(ui.pushButton_Mini, &QPushButton::clicked, this, &UpdateProgram::Mini);
 }
 
 VersionNumber UpdateProgram::getUrlVersion()
@@ -47,18 +45,29 @@ VersionNumber UpdateProgram::getUrlVersion()
 
 void UpdateProgram::Exit()
 {
+	if (0)
+	{
+
+	}
+	else
+	{
+		this->close();
+	}
 }
 
 void UpdateProgram::Mini()
 {
+	this->showMinimized();
 }
 
 void UpdateProgram::Start()
 {
+
 }
 
 void UpdateProgram::ReTry()
 {
+
 }
 
 void UpdateProgram::step0_Download()
@@ -67,10 +76,20 @@ void UpdateProgram::step0_Download()
 	if (getUrlVersion() > myVersion)
 	{
 		this->show();
-#ifdef _DEBUG
-		step1_Download();
-#else
+#define Test
 
+#ifdef _DEBUG
+#ifndef Test
+		step1_Download();
+#endif
+#else
+		updataPkg = new UpdataModule();
+		updataPkg->setData(url_Pkg);
+		connect(updataPkg, &UpdataModule::finish, this, &UpdateProgram::step1_Download);
+		updataPkg->getFile();
+#endif
+
+#ifdef Test
 		updataPkg = new UpdataModule();
 		updataPkg->setData(url_Pkg);
 		connect(updataPkg, &UpdataModule::finish, this, &UpdateProgram::step1_Download);
@@ -155,6 +174,7 @@ void UpdateProgram::step2_Unzip_TestProcess(int value)
 {
 	ui.label_Text->setText(QString::fromLocal8Bit("…Ÿ≈Æ∆Ìµª÷– ") + QString::number(value) + "%...");
 }
+
 
 void UpdateProgram::step2_Unzip_Finished()
 {
