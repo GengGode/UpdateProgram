@@ -13,6 +13,7 @@ UpdateProgram::UpdateProgram(QWidget *parent)
 	shadow->setColor(QColor(15, 15, 15, 50));
 	shadow->setBlurRadius(15);
 	ui.widget_Main->setGraphicsEffect(shadow);
+
 	ui.MainPage->setCurrentIndex(0);
 
 	updataVer = new UpdataModule();
