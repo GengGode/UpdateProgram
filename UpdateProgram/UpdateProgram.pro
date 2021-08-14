@@ -21,14 +21,14 @@ HEADERS += ./resource.h \
     ./UpdateProgram.h \
     ./Process7zWorker.h \
     ./UpdataModule.h \
-    ../../InstallationPackage/TianLiInstallationPackage/QtWidgetsMessageBox2.h
-SOURCES += ../../InstallationPackage/TianLiInstallationPackage/QtWidgetsMessageBox2.cpp \
+    ./QtWidgetsMessageBox2.h
+SOURCES += ./QtWidgetsMessageBox2.cpp \
     ./VersionNumber.cpp \
     ./Process7zWorker.cpp \
     ./UpdataModule.cpp \
     ./UpdateProgram.cpp \
     ./main.cpp
-FORMS += ../../InstallationPackage/TianLiInstallationPackage/QtWidgetsMessageBox2.ui \
+FORMS += ./QtWidgetsMessageBox2.ui \
     ./UpdateProgram.ui
-RESOURCES += ../../InstallationPackage/TianLiInstallationPackage/QtWidgetsMessageBox.qrc \
+RESOURCES += ./QtWidgetsMessageBox.qrc \
     UpdateProgram.qrc
