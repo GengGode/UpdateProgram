@@ -47,6 +47,7 @@ void UpdataModule::getFile()
 		return;
 	}
 	allBits = downloadFile->size();
+
 	httpRequestAborted = false;
 	//尝试获取文件
 	startRequest(downloadUrl);
@@ -70,6 +71,7 @@ void UpdataModule::startRequest(QUrl url)
 		connect(downloadReply, SIGNAL(readyRead()), this, SLOT(downloadReadyRead()));
 		connect(downloadReply, SIGNAL(finished()), this, SLOT(downloadFinished()));
 		connect(downloadReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(downloadError(QNetworkReply::NetworkError)));
+		connect(downloadReply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadProgress(qint64, qint64)));
 	}
 }
 
@@ -146,9 +148,10 @@ void UpdataModule::downloadFinished()
 
 void UpdataModule::downloadError(QNetworkReply::NetworkError errorCode)
 {
-	emit downloadResult(-1);
+	emit downloadResult(errorCode);
 }
 
-void UpdataModule::downloadProgress(qint64, qint64)
+void UpdataModule::downloadProgress(qint64 bytesSent, qint64 bytesTotal)
 {
+	emit updateProgress(bytesSent, bytesTotal);
 }

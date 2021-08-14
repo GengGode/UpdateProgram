@@ -64,7 +64,7 @@ signals:
 	//当错误发生时向外抛出错误信息
 	void error(QNetworkReply::NetworkError);
 	//抛出下载进度(更新进度条)
-	void updateProgress(qint64, qint64);
+	void updateProgress(qint64 bytesSent, qint64 bytesTotal);
 	//下载结果 0成功 其他失败
 	void downloadResult(int retCode);
 
@@ -79,6 +79,6 @@ private slots:
 	//下载过程中发生错误
 	void downloadError(QNetworkReply::NetworkError errorCode);
 	//下载过程进度条
-	void downloadProgress(qint64, qint64);
+	void downloadProgress(qint64 bytesSent, qint64 bytesTotal);
 };
 

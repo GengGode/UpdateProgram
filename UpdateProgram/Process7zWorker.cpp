@@ -28,6 +28,7 @@ void Process7zWorker::setUnZipFilePath(QString unZipFile)
 void Process7zWorker::unzip()
 {
 	QString exe = QApplication::applicationDirPath() + "/7z.exe";
+	exe = "\"" + exe + "\"";
 
 	QDir dir;
 	if (!dir.exists(unZipFilePath)) {
@@ -79,7 +80,7 @@ void Process7zWorker::unzip()
 	CloseHandle(hWrite);
 	char buffer[4095] = { 0 };       //用4K的空间来存储输出的内容，只要不是显示文件内容，一般情况下是够用了。
 	DWORD bytesRead;
-
+	int k = 0;
 	while (true)
 	{
 		if (ReadFile(hRead, buffer, 4095, &bytesRead, NULL) == NULL)
@@ -88,9 +89,12 @@ void Process7zWorker::unzip()
 
 		res = res.section("%", -2, -2);
 		int unzipBarValue = res.toInt();
-
-		emit unZipProcess(unzipBarValue);
+		k++;
+		Sleep(100);
+		emit unZipProcess(unzipBarValue+k);
 	}
+	emit unZipProcess(100);
+	Sleep(100);
 	CloseHandle(hRead);
 
 	emit unZipFinished();

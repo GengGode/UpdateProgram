@@ -16,13 +16,10 @@ UpdateProgram::UpdateProgram(QWidget *parent)
 
 	ui.MainPage->setCurrentIndex(0);
 
-	updataVer = new UpdataModule();
-	updataVer->setData(url_Version);
-	connect(updataVer, &UpdataModule::finish, this, &UpdateProgram::step0_Download);
-	updataVer->getFile();
-
 	connect(ui.pushButton_Exit, &QPushButton::clicked, this, &UpdateProgram::Exit);
 	connect(ui.pushButton_Mini, &QPushButton::clicked, this, &UpdateProgram::Mini);
+
+	step0_Download();
 }
 
 VersionNumber UpdateProgram::getUrlVersion()
@@ -73,29 +70,37 @@ void UpdateProgram::ReTry()
 
 void UpdateProgram::step0_Download()
 {
+	updataVer = new UpdataModule();
+	updataVer->setData(url_Version);
+	connect(updataVer, &UpdataModule::finish, this, &UpdateProgram::step1_Download);
+	updataVer->getFile();
+
+	QString myVersionFilePath =  QApplication::applicationDirPath().section("/", 0, -2) + "/version.tag";
+
+	QFile myVersionFile(myVersionFilePath);
+	if (!myVersionFile.open(QIODevice::ReadOnly | QIODevice::Text)) 
+	{
+		this->close();
+	}
+	QString line = myVersionFile.readLine();
+	myVersion = VersionNumber(line);
+}
+
+void UpdateProgram::step1_Download()
+{
 	ui.MainPage->setCurrentIndex(0);
 	if (getUrlVersion() > myVersion)
 	{
 		this->show();
-#define Test
 
-#ifdef _DEBUG
-#ifndef Test
-		step1_Download();
-#endif
-#else
 		updataPkg = new UpdataModule();
 		updataPkg->setData(url_Pkg);
-		connect(updataPkg, &UpdataModule::finish, this, &UpdateProgram::step1_Download);
-		updataPkg->getFile();
-#endif
+		connect(updataPkg, &UpdataModule::finish, this, &UpdateProgram::step2_Unzip);
+		connect(updataPkg, &UpdataModule::updateProgress, this, &UpdateProgram::step1_Download_Process);
+		connect(ui.progressBar, &QProgressBar::valueChanged, this, &UpdateProgram::step1_Download_TextProcess);
 
-#ifdef Test
-		updataPkg = new UpdataModule();
-		updataPkg->setData(url_Pkg);
-		connect(updataPkg, &UpdataModule::finish, this, &UpdateProgram::step1_Download);
 		updataPkg->getFile();
-#endif
+
 	}
 	else
 	{
@@ -103,42 +108,50 @@ void UpdateProgram::step0_Download()
 	}
 }
 
-void UpdateProgram::step1_Download()
+void UpdateProgram::step1_Download_Process(qint64 bytesSent, qint64 bytesTotal)
+{
+	if (ui.progressBar->value() > (int)(100.0 * bytesSent / bytesTotal))
+	{
+		ui.progressBar->setValue((int)(100.0 * bytesSent / bytesTotal));
+		return;
+	}
+
+	QPropertyAnimation *animation = new QPropertyAnimation(ui.progressBar, "value");
+	animation->setDuration(300);
+	animation->setStartValue(ui.progressBar->value());
+	animation->setEndValue((int)(100.0 * bytesSent / bytesTotal));
+	animation->setEasingCurve(QEasingCurve::InOutQuad);
+	animation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void UpdateProgram::step1_Download_TextProcess(int value)
+{
+	ui.label_Text->setText(QString::fromLocal8Bit("少女祈祷中 ") + QString::number(value) + "%...");
+}
+
+void UpdateProgram::step2_Unzip()
 {
 	ui.MainPage->setCurrentIndex(0);
 	ui.MainPage->show();
 
 	QString SourcePath = QApplication::applicationDirPath() + "/download/source.7z";
+	UnzipPath = QApplication::applicationDirPath().section("/", 0, -2);
+
+	SourcePath= "\"" + SourcePath + "\"";
+	UnzipPath = "\"" + UnzipPath + "\"";
 
 	installPkg = new Process7zWorker(NULL);
 	installPkg->setZipFilePath(SourcePath);
-#ifdef _DEBUG
-	installPkg->setUnZipFilePath(QApplication::applicationDirPath() + "/source/");
-#else
 	installPkg->setUnZipFilePath(UnzipPath);
-#endif
 
 	connect(installPkg, &Process7zWorker::unZipError, this, &UpdateProgram::step2_Unzip_Error);
 	connect(installPkg, &Process7zWorker::unZipProcess, this, &UpdateProgram::step2_Unzip_Process);
 	connect(installPkg, &Process7zWorker::unZipFinished, this, &UpdateProgram::step2_Unzip_Finished);
-	connect(ui.progressBar, &QProgressBar::valueChanged, this, &UpdateProgram::step2_Unzip_TestProcess);
+	connect(ui.progressBar, &QProgressBar::valueChanged, this, &UpdateProgram::step2_Unzip_TextProcess);
 
 	emit installPkg->start();
 
 	bool res = false;
-}
-
-void UpdateProgram::step2_Unzip()
-{
-	//unZip_7z = new Process7zWorker(NULL);
-	//unZip_7z->setZipFilePath(SourcePath);
-	//unZip_7z->setUnZipFilePath(InstallPath + InstallDirName);
-
-	//connect(unZip_7z, &Process7zWorker::unZipError, this, &TianLiInstallationPackage::unZip_Error);
-	//connect(unZip_7z, &Process7zWorker::unZipProcess, this, &TianLiInstallationPackage::unZip_Process);
-	//connect(unZip_7z, &Process7zWorker::unZipFinished, this, &TianLiInstallationPackage::unZip_finished);
-
-	//connect(this, &TianLiInstallationPackage::unZip, unZip_7z, &Process7zWorker::unzip);
 }
 
 void UpdateProgram::step2_Unzip_Error(int errorCode)
@@ -162,20 +175,24 @@ void UpdateProgram::step2_Unzip_Error(int errorCode)
 
 void UpdateProgram::step2_Unzip_Process(int value)
 {
+	if (ui.progressBar->value() > value)
+	{
+		ui.progressBar->setValue(value);
+		return;
+	}
+
 	QPropertyAnimation *animation = new QPropertyAnimation(ui.progressBar, "value");
 	animation->setDuration(300);
 	animation->setStartValue(ui.progressBar->value());
 	animation->setEndValue(value);
 	animation->setEasingCurve(QEasingCurve::InOutQuad);
 	animation->start(QAbstractAnimation::DeleteWhenStopped);
-
 }
 
-void UpdateProgram::step2_Unzip_TestProcess(int value)
+void UpdateProgram::step2_Unzip_TextProcess(int value)
 {
-	ui.label_Text->setText(QString::fromLocal8Bit("少女祈祷中 ") + QString::number(value) + "%...");
+	ui.label_Text->setText(QString::fromLocal8Bit("女神降临中 ") + QString::number(value) + "%...");
 }
-
 
 void UpdateProgram::step2_Unzip_Finished()
 {
@@ -186,6 +203,29 @@ void UpdateProgram::step3_Start()
 {
 	ui.MainPage->setCurrentIndex(1);
 	ui.MainPage->show();
+	connect(ui.pushButton_Start, &QPushButton::clicked, this, &UpdateProgram::step3_Start_RunLauncher);
+}
+
+void UpdateProgram::step3_Start_RunLauncher()
+{
+	QString command = "\"" + QApplication::applicationDirPath().section("/", 0, -2) + ExportName + "\"";
+	TCHAR szCmdLine[1024] = {};
+
+	command.toWCharArray(szCmdLine);
+	STARTUPINFO si;
+	memset(&si, 0, sizeof(STARTUPINFO));
+	si.cb = sizeof(STARTUPINFO);
+	si.dwFlags = STARTF_USESHOWWINDOW;
+	si.wShowWindow = SW_SHOW;
+	PROCESS_INFORMATION pi;
+
+	bool res = CreateProcess(NULL, szCmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+
+	if (res != true)
+	{
+		int k = GetLastError();
+	}
+	this->close();
 }
 
 

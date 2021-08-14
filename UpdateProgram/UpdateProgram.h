@@ -8,6 +8,7 @@
 #include "UpdataModule.h"
 #include "Process7zWorker.h"
 #include "VersionNumber.h"
+//#include "QtWidgetsMessageBox2.h"
 
 class UpdateProgram : public QWidget
 {
@@ -29,12 +30,8 @@ private:
 
 	VersionNumber myVersion = VersionNumber(QString("1.0.0"));
 
-	QString ExportName = "/天理系统.exe";
-#ifdef _DEBUG
-	QString UnzipPath = "/test";
-#else
+	QString ExportName = "/TianLi_Launcher.exe";
 	QString UnzipPath = "../";
-#endif
 
 private:
 	VersionNumber getUrlVersion();
@@ -49,13 +46,18 @@ private slots:
 	//void step0_get();
 
 	void step1_Download();
+	void step1_Download_Process(qint64 bytesSent, qint64 bytesTotal);
+	void step1_Download_TextProcess(int value);
+
 	void step2_Unzip();
 
 	void step2_Unzip_Error(int errorCode);
 	void step2_Unzip_Process(int value);
-	void step2_Unzip_TestProcess(int value);
+	void step2_Unzip_TextProcess(int value);
 	void step2_Unzip_Finished();
 
 	void step3_Start();
+	void step3_Start_RunLauncher();
 
+	//void errorPage();
 };

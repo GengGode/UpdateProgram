@@ -4,22 +4,31 @@
 
 TEMPLATE = app
 TARGET = UpdateProgram
-DESTDIR = ../x64/Debug
-CONFIG += debug
-LIBS += -L"."
+DESTDIR = ../x64/Release
+CONFIG += release
+RC_ICONS = MainIcon.ico
+QMAKE_LFLAGS += /MANIFESTUAC:\"level=\'requireAdministrator\' uiAccess=\'false\'\"
+RC_FILE = UpdateProgram.rc
+LIBS += -L"."]
 DEPENDPATH += .
 MOC_DIR += .
-OBJECTS_DIR += debug
+OBJECTS_DIR += release
 UI_DIR += .
 RCC_DIR += .
-HEADERS += ./VersionNumber.h \
+win32:RC_FILE = UpdateProgram.rc
+HEADERS += ./resource.h \
+    ./VersionNumber.h \
     ./UpdateProgram.h \
     ./Process7zWorker.h \
-    ./UpdataModule.h
-SOURCES += ./VersionNumber.cpp \
+    ./UpdataModule.h \
+    ../../InstallationPackage/TianLiInstallationPackage/QtWidgetsMessageBox2.h
+SOURCES += ../../InstallationPackage/TianLiInstallationPackage/QtWidgetsMessageBox2.cpp \
+    ./VersionNumber.cpp \
     ./Process7zWorker.cpp \
     ./UpdataModule.cpp \
     ./UpdateProgram.cpp \
     ./main.cpp
-FORMS += ./UpdateProgram.ui
-RESOURCES += UpdateProgram.qrc
+FORMS += ../../InstallationPackage/TianLiInstallationPackage/QtWidgetsMessageBox2.ui \
+    ./UpdateProgram.ui
+RESOURCES += ../../InstallationPackage/TianLiInstallationPackage/QtWidgetsMessageBox.qrc \
+    UpdateProgram.qrc
